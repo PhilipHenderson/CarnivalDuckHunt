@@ -230,6 +230,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainMenuCanvas: {fileID: 693003845}
   creditsCanvas: {fileID: 2073565451}
+  gameoverCanvas: {fileID: 0}
+  pauseCanvas: {fileID: 0}
+  gameoverScoreText: {fileID: 0}
 --- !u!4 &97930830
 Transform:
   m_ObjectHideFlags: 0

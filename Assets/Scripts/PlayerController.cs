@@ -1,13 +1,21 @@
 using UnityEngine;
+using UnityEngine.Analytics;
 
 public class PlayerController : MonoBehaviour
 {
     public float rotationSpeed = 50f; // Speed at which the gun rotates
+
     public GameObject bulletPrefab; // The bullet prefab to spawn
     public Transform bulletSpawnPoint; // The point from where bullets will be fired
+
     public GameObject pauseMenuCanvas; // Assign the Pause Menu Canvas in the Inspector
 
-    private bool isPaused = false; // Tracks the pause state of the game
+    public bool isPaused = false; // Tracks the pause state of the game
+
+    private void Start()
+    {
+        pauseMenuCanvas = GameObject.FindGameObjectWithTag("PauseUI");
+    }
 
     void Update()
     {
@@ -19,10 +27,17 @@ public class PlayerController : MonoBehaviour
             FireBullet();
         }
 
-        // Toggle pause state when R is pressed
         if (Input.GetKeyDown(KeyCode.E))
         {
             TogglePause();
+        }
+
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            ScoreBoardManager scoreboardManager = FindObjectOfType<ScoreBoardManager>();
+            scoreboardManager.ducksLeft = 0;
+            scoreboardManager.UpdateDucksLeftText();
+            scoreboardManager.UpdateScoreText();
         }
     }
 
@@ -58,12 +73,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void TogglePause()
+    public void TogglePause()
     {
         isPaused = !isPaused;
         Time.timeScale = isPaused ? 0f : 1f;
         pauseMenuCanvas.SetActive(isPaused); // Activate the pause menu canvas when paused
 
         // Optionally, handle other game state changes or UI updates here
-    }
+    }   
+
+
 }

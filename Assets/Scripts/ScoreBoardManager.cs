@@ -5,9 +5,12 @@ public class ScoreBoardManager : MonoBehaviour
 {
     public TextMeshProUGUI scoreText; // Assign in the inspector with your TMP Text for score
     public TextMeshProUGUI ducksLeftText;// Assign in the inspector with your UI Text for ducks left
+    public int ducksLeft = 30;
 
     private int score = 0;
-    private int ducksLeft = 30;
+
+    public int DucksLeft{ get { return ducksLeft; } }
+    public int Score{ get { return score; } }
 
     private void Start()
     {
@@ -31,12 +34,12 @@ public class ScoreBoardManager : MonoBehaviour
         IncreaseScore(2);
     }
 
-    private void UpdateScoreText()
+    public void UpdateScoreText()
     {
         scoreText.text = score.ToString();
     }
 
-    private void UpdateDucksLeftText()
+    public void UpdateDucksLeftText()
     {
         ducksLeftText.text = ducksLeft.ToString();
     }
@@ -47,5 +50,4 @@ public class ScoreBoardManager : MonoBehaviour
         ducksLeft--;
         UpdateDucksLeftText();
     }
-
 }

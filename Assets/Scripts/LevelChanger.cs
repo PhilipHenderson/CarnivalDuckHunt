@@ -8,37 +8,44 @@ public class LevelChanger : MonoBehaviour
 {
     public GameObject mainMenuCanvas;
     public GameObject creditsCanvas;
-    public GameObject winCanvas; // This will be searched for at startup
-    public GameObject loseCanvas; // This will be searched for at startup
-    public TextMeshProUGUI winScoreText; // This will be searched for at startup
-    public TextMeshProUGUI loseScoreText; // This will be searched for at startup
-
-    private int playerScore = 0;
+    public GameObject gameoverCanvas;
+    public GameObject pauseCanvas;
+    public TextMeshProUGUI gameoverScoreText;
+    ScoreBoardManager scoreboardManager;
 
     private void Start()
     {
-        // Attempt to find the canvases and text components if not assigned
-        winCanvas = GameObject.Find("GameOverCanvas");
-        loseCanvas = GameObject.Find("LoseCanvas");
+        scoreboardManager = FindObjectOfType<ScoreBoardManager>();
 
-        // For TextMeshProUGUI, it's a bit more complex as they're components of GameObjects
-        // You could name your TextMeshPro objects specifically to find them, like "WinScoreText" and "LoseScoreText"
-        winScoreText = GameObject.Find("GameOverScore")?.GetComponent<TextMeshProUGUI>();
-        loseScoreText = GameObject.Find("LoseScoreText")?.GetComponent<TextMeshProUGUI>();
+        gameoverCanvas = GameObject.Find("GameOverCanvas");
+        pauseCanvas = GameObject.Find("PauseUI");
+        gameoverScoreText = GameObject.Find("GameOverScore")?.GetComponent<TextMeshProUGUI>();
 
-        // Deactivate win and lose canvases at start if they exist
-        if (winCanvas) winCanvas.SetActive(false);
-        if (loseCanvas) loseCanvas.SetActive(false);
+        if (gameoverCanvas) gameoverCanvas.SetActive(false);
+        if (pauseCanvas) pauseCanvas.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if (scoreboardManager != null && scoreboardManager.DucksLeft == 0)
+        {
+            if (gameoverCanvas && gameoverScoreText)
+            {
+                gameoverCanvas.SetActive(true);
+                gameoverScoreText.text = scoreboardManager.Score.ToString();
+            }
+        }
     }
 
     public void ChangeScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
+        Time.timeScale = 1;
     }
 
     public void QuitGame()
     {
-        EditorApplication.isPlaying = false; // This will only work in the editor
+        EditorApplication.isPlaying = false;
         Debug.Log("Quit game requested.");
     }
 
@@ -52,24 +59,5 @@ public class LevelChanger : MonoBehaviour
     {
         mainMenuCanvas.SetActive(false);
         creditsCanvas.SetActive(true);
-    }
-
-    // Call this method when the player wins
-    public void ShowWinScreen()
-    {
-        if (winCanvas && winScoreText)
-        {
-            winCanvas.SetActive(true);
-            winScoreText.text = "Score: " + playerScore.ToString();
-        }
-    }
-
-    public void ShowLoseScreen()
-    {
-        if (loseCanvas && loseScoreText)
-        {
-            loseCanvas.SetActive(true);
-            loseScoreText.text = "Score: " + playerScore.ToString();
-        }
     }
 }
