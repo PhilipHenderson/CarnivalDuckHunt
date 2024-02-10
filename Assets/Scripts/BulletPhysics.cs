@@ -32,11 +32,13 @@ public class BulletPhysics : MonoBehaviour
             ScoreBoardManager scoreboardManager = FindObjectOfType<ScoreBoardManager>();
             if (scoreboardManager != null)
             {
-                scoreboardManager.IncreaseScore(2); // Assuming 2 points per duck hit
+                //scoreboardManager.IncreaseScore(2); // Assuming 2 points per duck hit
+                scoreboardManager.DuckKilled(); // Assuming 2 points per duck hit
             }
             Destroy(collision.gameObject); // Destroy the duck
         }
 
         Destroy(gameObject); // Destroy the bullet after collision
     }
+
 }

@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   launchAngle: 0
-  initialSpeed: 20
+  initialSpeed: 50
   lifespan: 3
 --- !u!54 &446012781313480246
 Rigidbody:
